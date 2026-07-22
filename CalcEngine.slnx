@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CalcEngine.Evaluator/CalcEngine.Evaluator.csproj" />
+    <Project Path="src/CalcEngine.Grammar/CalcEngine.Grammar.csproj" />
+    <Project Path="src/CalcEngine.Graph/CalcEngine.Graph.csproj" />
+    <Project Path="src/CalcEngine.Gui/CalcEngine.Gui.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CalcEngine.Evaluator.Tests/CalcEngine.Evaluator.Tests.csproj" />
+    <Project Path="tests/CalcEngine.Grammar.Tests/CalcEngine.Grammar.Tests.csproj" />
+    <Project Path="tests/CalcEngine.Graph.Tests/CalcEngine.Graph.Tests.csproj" />
+  </Folder>
+</Solution>

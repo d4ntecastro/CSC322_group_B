@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "CalcEngine.Grammar/1.0.0": {
+        "runtime": {
+          "CalcEngine.Grammar.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CalcEngine.Grammar/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
