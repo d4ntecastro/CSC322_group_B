@@ -5,6 +5,7 @@ C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngi
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.AssemblyInfoInputs.cache
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.AssemblyInfo.cs
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.csproj.CoreCompileInputs.cache
+C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.sourcelink.json
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\refint\CalcEngine.Evaluator.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Evaluator\obj\Debug\net10.0\CalcEngine.Evaluator.pdb

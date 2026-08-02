@@ -149,6 +149,7 @@ C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\Ca
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.AssemblyInfoInputs.cache
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.AssemblyInfo.cs
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.csproj.CoreCompileInputs.cache
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.sourcelink.json
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngi.D8FF2615.Up2Date
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.dll
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\refint\CalcEngine.Grammar.Tests.dll

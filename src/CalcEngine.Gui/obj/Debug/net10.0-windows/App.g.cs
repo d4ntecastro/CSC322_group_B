@@ -44,7 +44,7 @@ namespace CalcEngine.Gui {
         /// InitializeComponent
         /// </summary>
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.1.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.10.0")]
         public void InitializeComponent() {
             
             #line 5 "..\..\..\App.xaml"
@@ -59,7 +59,7 @@ namespace CalcEngine.Gui {
         /// </summary>
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.1.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.10.0")]
         public static void Main() {
             CalcEngine.Gui.App app = new CalcEngine.Gui.App();
             app.InitializeComponent();

@@ -5,6 +5,7 @@ C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.G
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.AssemblyInfoInputs.cache
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.AssemblyInfo.cs
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.csproj.CoreCompileInputs.cache
+C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.sourcelink.json
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\refint\CalcEngine.Graph.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Graph\obj\Debug\net10.0\CalcEngine.Graph.pdb

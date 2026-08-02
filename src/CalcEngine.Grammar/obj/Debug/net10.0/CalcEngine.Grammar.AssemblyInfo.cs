@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalcEngine.Grammar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2212a84912b200e58e01da8d11dc1005a80ff3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalcEngine.Grammar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalcEngine.Grammar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

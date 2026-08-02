@@ -149,6 +149,7 @@ C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngine.Evaluator.Tests.AssemblyInfoInputs.cache
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngine.Evaluator.Tests.AssemblyInfo.cs
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngine.Evaluator.Tests.csproj.CoreCompileInputs.cache
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngine.Evaluator.Tests.sourcelink.json
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngi.8A6FEBA6.Up2Date
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\CalcEngine.Evaluator.Tests.dll
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Evaluator.Tests\obj\Debug\net10.0\refint\CalcEngine.Evaluator.Tests.dll

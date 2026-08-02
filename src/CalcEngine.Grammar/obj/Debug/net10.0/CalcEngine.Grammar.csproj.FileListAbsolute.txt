@@ -5,6 +5,7 @@ C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.AssemblyInfoInputs.cache
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.AssemblyInfo.cs
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.csproj.CoreCompileInputs.cache
+C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.sourcelink.json
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\refint\CalcEngine.Grammar.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.pdb
