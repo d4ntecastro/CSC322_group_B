@@ -156,3 +156,17 @@ C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\re
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.pdb
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\CalcEngine.Grammar.Tests.genruntimeconfig.cache
 C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\obj\Debug\net10.0\ref\CalcEngine.Grammar.Tests.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\.msCoverageSourceRootsMapping_CalcEngine.Grammar.Tests
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\CoverletSourceRootsMapping_CalcEngine.Grammar.Tests
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\Antlr4.Runtime.Standard.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\Antlr4BuildTasks.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\Microsoft.Build.Framework.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\Microsoft.Build.Utilities.Core.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\Microsoft.NET.StringTools.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\System.Configuration.ConfigurationManager.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\System.Diagnostics.EventLog.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\runtimes\win\lib\net9.0\System.Diagnostics.EventLog.Messages.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\runtimes\win\lib\net9.0\System.Diagnostics.EventLog.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\CalcEngine.Grammar.dll
+C:\Users\User\CSC322_group_B\tests\CalcEngine.Grammar.Tests\bin\Debug\net10.0\CalcEngine.Grammar.pdb

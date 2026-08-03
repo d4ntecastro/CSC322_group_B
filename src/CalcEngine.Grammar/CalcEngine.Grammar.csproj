@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+    <PackageReference Include="Antlr4BuildTasks" Version="12.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Antlr4 Include="Formula.g4">
+      <Package>CalcEngine.Grammar.Generated</Package>
+      <Visitor>true</Visitor>
+    </Antlr4>
+  </ItemGroup>
+
 </Project>

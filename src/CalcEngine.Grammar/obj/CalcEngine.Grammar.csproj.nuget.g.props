@@ -12,4 +12,7 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\User\.nuget\packages\" />
   </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)antlr4buildtasks\12.14.0\build\Antlr4BuildTasks.props" Condition="Exists('$(NuGetPackageRoot)antlr4buildtasks\12.14.0\build\Antlr4BuildTasks.props')" />
+  </ImportGroup>
 </Project>

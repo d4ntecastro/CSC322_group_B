@@ -47,6 +47,16 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Antlr4.Runtime.Standard": {
+              "target": "Package",
+              "version": "[4.13.1, )"
+            },
+            "Antlr4BuildTasks": {
+              "target": "Package",
+              "version": "[12.14.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
