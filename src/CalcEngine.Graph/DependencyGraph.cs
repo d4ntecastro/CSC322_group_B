@@ -79,10 +79,17 @@ public sealed class DependencyGraph
         if (dependsOn is null) throw new ArgumentNullException(nameof(dependsOn));
 
         var cell = Normalize(cellReference);
-        var newDeps = dependsOn.Select(Normalize).Distinct().ToList();
+
+        var newDeps = new HashSet<string>();
+        foreach (var raw in dependsOn)
+            newDeps.Add(Normalize(raw));
 
         EnsureNode(cell);
-        var oldDeps = _dependsOn[cell].ToList();
+        // A reference, not a copy: ReplaceEdges below reassigns
+        // _dependsOn[cell] to a different HashSet instance rather than
+        // mutating this one in place, so it stays valid as a rollback
+        // snapshot without needing its own allocation.
+        var oldDeps = _dependsOn[cell];
 
         ReplaceEdges(cell, newDeps);
 
@@ -171,15 +178,19 @@ public sealed class DependencyGraph
         if (!_dependents.ContainsKey(cell)) _dependents[cell] = new HashSet<string>();
     }
 
-    private void ReplaceEdges(string cell, IEnumerable<string> newDependencies)
+    /// <summary>
+    /// Takes ownership of newDependencies (it becomes _dependsOn[cell]
+    /// directly, not a copy of it) — callers must pass a HashSet nothing
+    /// else still mutates, which SetDependencies' two call sites both do.
+    /// </summary>
+    private void ReplaceEdges(string cell, HashSet<string> newDependencies)
     {
         foreach (var oldDep in _dependsOn[cell])
             _dependents[oldDep].Remove(cell);
 
-        var newSet = new HashSet<string>(newDependencies);
-        _dependsOn[cell] = newSet;
+        _dependsOn[cell] = newDependencies;
 
-        foreach (var dep in newSet)
+        foreach (var dep in newDependencies)
         {
             EnsureNode(dep);
             _dependents[dep].Add(cell);
@@ -199,15 +210,23 @@ public sealed class DependencyGraph
     {
         var visited = new HashSet<string> { start };
         var path = new List<string> { start };
-        var frames = new Stack<IEnumerator<string>>();
+        // HashSet<T>.Enumerator is a struct; keeping the stack typed as that
+        // (rather than IEnumerator<string>) avoids boxing one allocation per
+        // DFS frame, which matters here since this runs on every single
+        // SetDependencies call. Stack<T>.Peek() would hand back a copy of a
+        // struct enumerator whose MoveNext() wouldn't stick, so each frame is
+        // popped, advanced, then pushed back instead.
+        var frames = new Stack<HashSet<string>.Enumerator>();
         frames.Push(_dependsOn[start].GetEnumerator());
 
         while (frames.Count > 0)
         {
-            var current = frames.Peek();
+            var current = frames.Pop();
             if (current.MoveNext())
             {
                 var next = current.Current;
+                frames.Push(current);
+
                 if (next == start)
                 {
                     path.Add(next);
@@ -222,7 +241,6 @@ public sealed class DependencyGraph
             }
             else
             {
-                frames.Pop();
                 path.RemoveAt(path.Count - 1);
             }
         }
@@ -230,7 +248,14 @@ public sealed class DependencyGraph
         return null;
     }
 
-    /// <summary>BFS outward along "depends on" (reverse) edges from seeds — everything that would go stale if a seed's value changed.</summary>
+    /// <summary>
+    /// BFS outward along "depends on" (reverse) edges from seeds — everything
+    /// that would go stale if a seed's value changed. Every seed is included
+    /// even if the graph has never heard of it (a brand-new cell with a raw
+    /// value has no dependents yet, but recalculating "just that cell" is
+    /// still a well-formed, one-element request) — only the BFS expansion
+    /// past a seed requires it to actually be a tracked node.
+    /// </summary>
     private HashSet<string> CollectTransitiveDependents(IEnumerable<string> seeds)
     {
         var affected = new HashSet<string>();
@@ -238,8 +263,8 @@ public sealed class DependencyGraph
 
         foreach (var seed in seeds)
         {
-            if (!_dependents.ContainsKey(seed)) continue;
-            if (affected.Add(seed)) queue.Enqueue(seed);
+            if (affected.Add(seed) && _dependents.ContainsKey(seed))
+                queue.Enqueue(seed);
         }
 
         while (queue.Count > 0)
@@ -261,6 +286,10 @@ public sealed class DependencyGraph
     /// been emitted. Used both for the full-graph order (subset == every
     /// cell) and the scoped order (subset == one change's affected cells),
     /// so there's exactly one topological-sort implementation to get right.
+    ///
+    /// nodes may include cells the graph has never tracked (see
+    /// CollectTransitiveDependents) — those are treated as having no known
+    /// dependencies and no known dependents, so they simply come out first.
     /// </summary>
     private List<string> TopologicalSort(IEnumerable<string> nodes)
     {
@@ -268,7 +297,7 @@ public sealed class DependencyGraph
 
         var inDegree = new Dictionary<string, int>(scope.Count);
         foreach (var node in scope)
-            inDegree[node] = _dependsOn[node].Count(scope.Contains);
+            inDegree[node] = _dependsOn.TryGetValue(node, out var deps) ? deps.Count(scope.Contains) : 0;
 
         var queue = new Queue<string>(scope.Where(n => inDegree[n] == 0));
         var order = new List<string>(scope.Count);
@@ -277,7 +306,8 @@ public sealed class DependencyGraph
         {
             var node = queue.Dequeue();
             order.Add(node);
-            foreach (var dependent in _dependents[node])
+            if (!_dependents.TryGetValue(node, out var dependents)) continue;
+            foreach (var dependent in dependents)
             {
                 if (!scope.Contains(dependent)) continue;
                 if (--inDegree[dependent] == 0) queue.Enqueue(dependent);

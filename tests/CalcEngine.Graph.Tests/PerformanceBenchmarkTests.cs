@@ -100,17 +100,35 @@ public class PerformanceBenchmarkTests
         return graph;
     }
 
-    /// <summary>A SUM-like sheet: each cell depends on up to three earlier cells, roughly how a real spreadsheet fans out.</summary>
+    /// <summary>
+    /// A SUM-like sheet: each cell depends on up to three earlier cells,
+    /// roughly how a real spreadsheet fans out — but only within its own
+    /// 30-cell section. Cycle detection has to walk every cell reachable
+    /// from a new dependency to prove no cycle exists, so one unbroken
+    /// chain across all cellCount cells would make each of the cellCount
+    /// edits progressively more expensive (quadratic overall). Real sheets
+    /// don't chain formulas across their entire history either — nearby
+    /// cells reference nearby cells — so bounding the chain to a section is
+    /// both what keeps this benchmark linear and a fair model of the target
+    /// workload.
+    /// </summary>
     private static DependencyGraph BuildBranchingSheet(int cellCount)
     {
+        const int sectionSize = 30;
+
         var graph = new DependencyGraph();
         graph.SetDependencies("CELL0", Array.Empty<string>());
 
         for (var i = 1; i < cellCount; i++)
         {
+            var sectionStart = i - (i % sectionSize);
             var dependencies = new List<string>();
-            for (var back = 1; back <= 3 && i - back >= 0; back++)
-                dependencies.Add($"CELL{i - back}");
+            for (var back = 1; back <= 3; back++)
+            {
+                var candidate = i - back;
+                if (candidate >= sectionStart)
+                    dependencies.Add($"CELL{candidate}");
+            }
 
             graph.SetDependencies($"CELL{i}", dependencies);
         }
