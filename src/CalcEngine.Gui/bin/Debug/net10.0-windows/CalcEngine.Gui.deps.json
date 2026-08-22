@@ -7,14 +7,117 @@
   "targets": {
     ".NETCoreApp,Version=v10.0": {
       "CalcEngine.Gui/1.0.0": {
+        "dependencies": {
+          "CalcEngine.Grammar": "1.0.0"
+        },
         "runtime": {
           "CalcEngine.Gui.dll": {}
+        }
+      },
+      "Antlr4.Runtime.Standard/4.13.1": {
+        "runtime": {
+          "lib/netstandard2.0/Antlr4.Runtime.Standard.dll": {
+            "assemblyVersion": "4.13.1.0",
+            "fileVersion": "4.13.1.0"
+          }
+        }
+      },
+      "Antlr4BuildTasks/12.14.0": {
+        "dependencies": {
+          "Microsoft.Build.Framework": "18.0.2",
+          "Microsoft.Build.Utilities.Core": "18.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Antlr4BuildTasks.dll": {
+            "assemblyVersion": "12.14.0.0",
+            "fileVersion": "12.14.0.0"
+          }
+        }
+      },
+      "Microsoft.Build.Framework/18.0.2": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Build.Framework.dll": {
+            "assemblyVersion": "15.1.0.0",
+            "fileVersion": "18.0.2.52102"
+          }
+        }
+      },
+      "Microsoft.Build.Utilities.Core/18.0.2": {
+        "dependencies": {
+          "Microsoft.Build.Framework": "18.0.2",
+          "Microsoft.NET.StringTools": "18.0.2"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Build.Utilities.Core.dll": {
+            "assemblyVersion": "15.1.0.0",
+            "fileVersion": "18.0.2.52102"
+          }
+        }
+      },
+      "Microsoft.NET.StringTools/18.0.2": {
+        "runtime": {
+          "lib/net10.0/Microsoft.NET.StringTools.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "18.0.2.52102"
+          }
+        }
+      },
+      "CalcEngine.Grammar/1.0.0": {
+        "dependencies": {
+          "Antlr4.Runtime.Standard": "4.13.1",
+          "Antlr4BuildTasks": "12.14.0"
+        },
+        "runtime": {
+          "CalcEngine.Grammar.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "CalcEngine.Gui/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Antlr4.Runtime.Standard/4.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Da5+i4kFHUseJRZGcBG5fmZGpA/Ns180ibrQMxgZzjpQOnENVvSL5gi5HZ8Ncz8/AR2WsKbOg2lMBzjz0HUQcA==",
+      "path": "antlr4.runtime.standard/4.13.1",
+      "hashPath": "antlr4.runtime.standard.4.13.1.nupkg.sha512"
+    },
+    "Antlr4BuildTasks/12.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZL7dXisnqvlmXv0BZkSf4yYXHD5XsYmrubgHC8L7kqsrrTaej0q+VQLF8SmFyrnwisiN6ys9p8mZzEoCp0R+Fw==",
+      "path": "antlr4buildtasks/12.14.0",
+      "hashPath": "antlr4buildtasks.12.14.0.nupkg.sha512"
+    },
+    "Microsoft.Build.Framework/18.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sOSb+0J4G/jCBW/YqmRuL0eOMXgfw1KQLdC9TkbvfA5xs7uNm+PBQXJCOzSJGXtZcZrtXozcwxPmUiRUbmd7FA==",
+      "path": "microsoft.build.framework/18.0.2",
+      "hashPath": "microsoft.build.framework.18.0.2.nupkg.sha512"
+    },
+    "Microsoft.Build.Utilities.Core/18.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qsI2Mc8tbJEyg5m4oTvxlu5wY8te0TIVxObxILvrrPdeFUwH5V5UXUT2RV054b3S9msIR+7zViTWp4nRp0YGbQ==",
+      "path": "microsoft.build.utilities.core/18.0.2",
+      "hashPath": "microsoft.build.utilities.core.18.0.2.nupkg.sha512"
+    },
+    "Microsoft.NET.StringTools/18.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cTZw3GHkAlqZACYGeQT3niS3UfVQ8CH0O5+zUdhxstrg1Z8Q2ViXYFKjSxHmEXTX85mrOT/QnHZOeQhhSsIrkQ==",
+      "path": "microsoft.net.stringtools/18.0.2",
+      "hashPath": "microsoft.net.stringtools.18.0.2.nupkg.sha512"
+    },
+    "CalcEngine.Grammar/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

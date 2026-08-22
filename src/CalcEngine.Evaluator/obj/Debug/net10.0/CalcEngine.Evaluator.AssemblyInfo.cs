@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalcEngine.Evaluator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7acdc0d2f89dcd4e841ab01d495144e87b27ea4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2d43b25cbc7739c3ce4902bc1ccfb49c6ef6d4c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalcEngine.Evaluator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalcEngine.Evaluator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

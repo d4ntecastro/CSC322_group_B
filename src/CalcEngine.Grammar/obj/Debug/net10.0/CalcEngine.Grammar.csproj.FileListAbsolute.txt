@@ -11,3 +11,16 @@ C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\refint\Cal
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.pdb
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\ref\CalcEngine.Grammar.dll
 C:\Users\User\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.csproj.AssemblyReference.cache
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\bin\Debug\net10.0\CalcEngine.Grammar.deps.json
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\bin\Debug\net10.0\CalcEngine.Grammar.dll
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\bin\Debug\net10.0\CalcEngine.Grammar.pdb
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.csproj.AssemblyReference.cache
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.AssemblyInfoInputs.cache
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.AssemblyInfo.cs
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.csproj.CoreCompileInputs.cache
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.sourcelink.json
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.dll
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\refint\CalcEngine.Grammar.dll
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\CalcEngine.Grammar.pdb
+C:\Users\Joel\Documents\GitHub\CSC322_group_B\src\CalcEngine.Grammar\obj\Debug\net10.0\ref\CalcEngine.Grammar.dll
