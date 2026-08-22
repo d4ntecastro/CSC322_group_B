@@ -8,14 +8,18 @@
     ".NETCoreApp,Version=v10.0": {
       "CalcEngine.Graph.Tests/1.0.0": {
         "dependencies": {
+          "CalcEngine.Graph": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.14.0",
           "NUnit": "4.3.2",
-          "NUnit3TestAdapter": "5.0.0"
+          "NUnit.Analyzers": "4.7.0",
+          "NUnit3TestAdapter": "5.0.0",
+          "coverlet.collector": "6.0.4"
         },
         "runtime": {
           "CalcEngine.Graph.Tests.dll": {}
         }
       },
+      "coverlet.collector/6.0.4": {},
       "Microsoft.ApplicationInsights/2.22.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.ApplicationInsights.dll": {
@@ -522,10 +526,19 @@
           }
         }
       },
+      "NUnit.Analyzers/4.7.0": {},
       "NUnit3TestAdapter/5.0.0": {
         "dependencies": {
           "Microsoft.Testing.Extensions.VSTestBridge": "1.5.3",
           "Microsoft.Testing.Platform.MSBuild": "1.5.3"
+        }
+      },
+      "CalcEngine.Graph/1.0.0": {
+        "runtime": {
+          "CalcEngine.Graph.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -535,6 +548,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "coverlet.collector/6.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg==",
+      "path": "coverlet.collector/6.0.4",
+      "hashPath": "coverlet.collector.6.0.4.nupkg.sha512"
     },
     "Microsoft.ApplicationInsights/2.22.0": {
       "type": "package",
@@ -620,12 +640,24 @@
       "path": "nunit/4.3.2",
       "hashPath": "nunit.4.3.2.nupkg.sha512"
     },
+    "NUnit.Analyzers/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1AjtK0uoJgxyobNtNwjQLlEs2X+9mgfWbWXiIktquTvpOhSXMf56TZF43+q2lIIYhV4IrfS82/pfo4uPUYka4w==",
+      "path": "nunit.analyzers/4.7.0",
+      "hashPath": "nunit.analyzers.4.7.0.nupkg.sha512"
+    },
     "NUnit3TestAdapter/5.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-sy4cLoUAdE6TDM4wNX5gmNCyhMev5wUz4cA6ZRf/aON9vf9t4xTVGLj/4huhDKcS4dFfmVVcgcP70yC7WC9kKg==",
       "path": "nunit3testadapter/5.0.0",
       "hashPath": "nunit3testadapter.5.0.0.nupkg.sha512"
+    },
+    "CalcEngine.Graph/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
