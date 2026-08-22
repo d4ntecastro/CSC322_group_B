@@ -1,4 +1,4 @@
-﻿<Window
+<Window
     x:Class="CalcEngine.Gui.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,15 +9,118 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8F9FA" />
+            <Setter Property="Foreground" Value="#3C4043" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+        </Style>
+
+        <Style TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="#F8F9FA" />
+            <Setter Property="Foreground" Value="#5F6368" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E8F0FE" />
+                    <Setter Property="Foreground" Value="#174EA6" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="BorderBrush" Value="#1A73E8" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="28" />
         </Grid.RowDefinitions>
 
-        <DockPanel
+        <Border
             Grid.Row="0"
+            Padding="6,4"
+            Background="#f8f9fa"
+            BorderBrush="#e0e0e0">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="NewButton"
+                    Margin="2,0"
+                    Padding="10,4"
+                    Background="White"
+                    BorderBrush="#cccccc"
+                    Click="NewButton_Click"
+                    Content="➕ New" />
+                <Button
+                    x:Name="OpenButton"
+                    Margin="2,0"
+                    Padding="10,4"
+                    Background="White"
+                    BorderBrush="#cccccc"
+                    Click="OpenButton_Click"
+                    Content="🗃️ Open" />
+                <Button
+                    x:Name="SaveButton"
+                    Margin="2,0"
+                    Padding="10,4"
+                    Background="White"
+                    BorderBrush="#cccccc"
+                    Click="SaveButton_Click"
+                    Content="💾 Save" />
+
+                <Rectangle
+                    Width="1"
+                    Height="20"
+                    Margin="6,0"
+                    Fill="#cccccc" />
+
+                <Button
+                    x:Name="ClearButton"
+                    Margin="2,0"
+                    Padding="10,4"
+                    Background="White"
+                    BorderBrush="#cccccc"
+                    Click="ClearButton_Click"
+                    Content="🧹Clear" />
+
+                <Rectangle
+                    Width="1"
+                    Height="20"
+                    Margin="6,0"
+                    Fill="#cccccc" />
+
+                <Button
+                    x:Name="GraphButton"
+                    Margin="2,0"
+                    Padding="12,4"
+                    Background="#1A73E8"
+                    BorderThickness="0"
+                    Content="📊 Plot Graph"
+                    FontWeight="Bold"
+                    Foreground="White" />
+            </StackPanel>
+
+        </Border>
+        <DockPanel
+            Grid.Row="1"
             Margin="4"
             Background="#f3f3f3">
 
@@ -50,15 +153,22 @@
 
         <DataGrid
             x:Name="SpreadsheetGrid"
-            Grid.Row="1"
+            Grid.Row="2"
             AutoGenerateColumns="True"
             Background="White"
             CanUserAddRows="False"
+            FontFamily="Segoe UI"
+            FontSize="13"
             GridLinesVisibility="All"
-            RowHeaderWidth="30"
-            SelectedCellsChanged="SpreadsheetGrid_SelectedCellsChanged" />
+            HorizontalGridLinesBrush="#e0e0e0"
+            LoadingRow="SpreadsheetGrid_LoadingRow"
+            RowHeaderWidth="40"
+            SelectedCellsChanged="SpreadsheetGrid_SelectedCellsChanged"
+            SelectionMode="Single"
+            SelectionUnit="Cell"
+            VerticalGridLinesBrush="#e0e0e0" />
 
-        <StatusBar Grid.Row="2" Background="#e0e0e0">
+        <StatusBar Grid.Row="3" Background="#e0e0e0">
             <StatusBarItem>
                 <TextBlock
                     x:Name="StatusTextBlock"
