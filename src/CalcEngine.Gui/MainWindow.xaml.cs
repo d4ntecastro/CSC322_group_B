@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using CalcEngine.Grammar;
+using CalcEngine.Grammar.Errors;
 
 namespace CalcEngine.Gui;
 
@@ -39,5 +40,54 @@ public partial class MainWindow : Window
         }
 
         SpreadsheetGrid.ItemsSource = _spreadsheetTable.DefaultView;
+    }
+
+    private void SpreadsheetGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (SpreadsheetGrid.CurrentCell.IsValid)
+        {
+            // get row and column index
+            int columnIndex = SpreadsheetGrid.CurrentCell.Column.DisplayIndex;
+
+            int rowIndex = SpreadsheetGrid.Items.IndexOf(SpreadsheetGrid.CurrentCell.Item);
+
+
+            // ensure the indexes are not negative
+            if (columnIndex >= 0 && rowIndex >= 0)
+            {
+                char columnLetter = (char)('A' + columnIndex);
+
+                string cellAddress = $"{columnLetter}{rowIndex + 1}";
+
+                CellAddressTextBox.Text = cellAddress;
+            }
+        }
+    }
+
+    private void FormulaTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        // when user clicks Enter key
+        if (e.Key == Key.Enter)
+        {
+            string formulaText = FormulaTextBox.Text;
+
+            // parse the formulaText using CalcEngine.Grammar
+            ParseResult result = _parserService.Parse(formulaText);
+
+            if(result.Success)
+            {
+                StatusTextBlock.Text = $"Valid Formula! Tree: {result.Tree}";
+
+                StatusTextBlock.Foreground = Brushes.Green;
+            }
+            else
+            {
+                string errors = string.Join(';', result.Errors);
+
+                StatusTextBlock.Text = $"Syntax Error: {errors}";
+
+                StatusTextBlock.Foreground = Brushes.Red;
+            }
+        }
     }
 }

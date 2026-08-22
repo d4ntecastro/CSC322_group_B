@@ -43,6 +43,7 @@
                 Margin="4"
                 VerticalContentAlignment="Center"
                 FontWeight="Bold"
+                KeyDown="FormulaTextBox_KeyDown"
                 Text="=SUM(A1:B10)" />
 
         </DockPanel>
@@ -54,7 +55,8 @@
             Background="White"
             CanUserAddRows="False"
             GridLinesVisibility="All"
-            RowHeaderWidth="30" />
+            RowHeaderWidth="30"
+            SelectedCellsChanged="SpreadsheetGrid_SelectedCellsChanged" />
 
         <StatusBar Grid.Row="2" Background="#e0e0e0">
             <StatusBarItem>
