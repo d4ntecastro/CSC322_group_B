@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Data;
 using CalcEngine.Grammar;
 using CalcEngine.Grammar.Errors;
+using CalcEngine.Grammar.Tree;
 
 namespace CalcEngine.Gui;
 
@@ -21,6 +22,11 @@ public partial class MainWindow : Window
 {
     private DataTable _spreadsheetTable = new DataTable();
     private FormulaParserService _parserService = new FormulaParserService();
+
+    // active cell information
+    private int _selectedRow = 0;
+    private int _selectedColumn = 0;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -55,6 +61,12 @@ public partial class MainWindow : Window
             // ensure the indexes are not negative
             if (columnIndex >= 0 && rowIndex >= 0)
             {
+                // update active cell information
+                _selectedColumn = columnIndex;
+
+                _selectedRow = rowIndex;
+
+                // get cell address
                 char columnLetter = (char)('A' + columnIndex);
 
                 string cellAddress = $"{columnLetter}{rowIndex + 1}";
@@ -74,11 +86,26 @@ public partial class MainWindow : Window
             // parse the formulaText using CalcEngine.Grammar
             ParseResult result = _parserService.Parse(formulaText);
 
-            if(result.Success)
+            if (result.Success && result.Tree != null)
             {
+                // update status block view to green and the text to the result tree
                 StatusTextBlock.Text = $"Valid Formula! Tree: {result.Tree}";
 
                 StatusTextBlock.Foreground = Brushes.Green;
+
+                // calculation
+                var fakeContext = new FakeEvaluationContext();
+
+                var evaluatedValue = result.Tree.Evaluate(fakeContext);
+
+                System.Console.WriteLine(evaluatedValue.ToString());
+
+                if (_selectedRow >= 0 && _selectedColumn >= 0)
+                {
+                    _spreadsheetTable.Rows[_selectedRow][_selectedColumn] = evaluatedValue.ToString();
+                    SpreadsheetGrid.Items.Refresh();
+                }
+
             }
             else
             {
