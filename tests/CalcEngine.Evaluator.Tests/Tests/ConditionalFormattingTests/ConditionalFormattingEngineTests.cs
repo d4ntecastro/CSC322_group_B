@@ -7,7 +7,7 @@ using CalcEngine.Evaluator.Tests.TestSupport;
 using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.ConditionalFormattingTests
+namespace CalcEngine.Evaluator.Tests.ConditionalFormattingTests
 {
     [TestFixture]
     public class ConditionalFormattingEngineTests

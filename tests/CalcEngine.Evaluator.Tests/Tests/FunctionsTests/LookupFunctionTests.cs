@@ -6,7 +6,7 @@ using CalcEngine.Evaluator.Tests.TestSupport;
 using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.FunctionsTests
+namespace CalcEngine.Evaluator.Tests.FunctionsTests
 {
     [TestFixture]
     public class LookupFunctionTests

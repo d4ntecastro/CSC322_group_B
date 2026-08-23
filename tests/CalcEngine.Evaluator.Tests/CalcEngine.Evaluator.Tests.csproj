@@ -20,4 +20,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\\..\\src\\CalcEngine.Evaluator\\CalcEngine.Evaluator.csproj" />
+  </ItemGroup>
+
 </Project>

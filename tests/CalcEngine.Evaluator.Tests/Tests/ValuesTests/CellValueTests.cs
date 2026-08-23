@@ -1,7 +1,7 @@
 using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.ValuesTests
+namespace CalcEngine.Evaluator.Tests.ValuesTests
 {
     [TestFixture]
     public class CellValueTests

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Evaluator.CalcEngine.Evaluator.Commands;
-using TestEvaluator.CalcEngine.Evaluator;
+using CalcEngine.Evaluator;
+using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
 using CalcEngine.Evaluator.Commands;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.CommandsTests
+namespace CalcEngine.Evaluator.Tests.CommandsTests
 {
     [TestFixture]
     public class CommandManagerTests

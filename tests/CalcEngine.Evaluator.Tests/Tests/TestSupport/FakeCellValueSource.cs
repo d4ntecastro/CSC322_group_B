@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using CalcEngine.Evaluator.Context;
 using CalcEngine.Evaluator.Values;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.TestSupport
+namespace CalcEngine.Evaluator.Tests.TestSupport
 {
     /// <summary>
     /// A minimal in-memory ICellValueSource used across the Evaluator test suite so

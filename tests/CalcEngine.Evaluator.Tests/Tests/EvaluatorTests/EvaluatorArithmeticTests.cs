@@ -7,7 +7,7 @@ using CalcEngine.Evaluator.Tests.TestSupport;
 using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.EvaluatorTests
+namespace CalcEngine.Evaluator.Tests.EvaluatorTests
 {
     [TestFixture]
     public class EvaluatorArithmeticTests

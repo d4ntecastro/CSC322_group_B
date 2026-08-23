@@ -4,9 +4,9 @@ using CalcEngine.Evaluator.Context;
 using CalcEngine.Evaluator.Functions;
 using CalcEngine.Evaluator.Values;
 using NUnit.Framework;
-using TestEvaluator.CalcEngine.Evaluator.Tests.TestSupport;
+using CalcEngine.Evaluator.Tests.TestSupport;
 
-namespace TestEvaluator.CalcEngine.Evaluator.Tests.EvaluatorTests
+namespace CalcEngine.Evaluator.Tests.EvaluatorTests
 {
     [TestFixture]
     public class EvaluatorReferenceTests
