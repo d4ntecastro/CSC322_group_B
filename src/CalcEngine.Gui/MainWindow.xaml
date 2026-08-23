@@ -113,6 +113,7 @@
                     Padding="12,4"
                     Background="#1A73E8"
                     BorderThickness="0"
+                    Click="GraphButton_Click"
                     Content="📊 Plot Graph"
                     FontWeight="Bold"
                     Foreground="White" />
@@ -157,6 +158,8 @@
             AutoGenerateColumns="True"
             Background="White"
             CanUserAddRows="False"
+            CanUserSortColumns="False"
+            CellEditEnding="SpreadsheetGrid_CellEditEnding"
             FontFamily="Segoe UI"
             FontSize="13"
             GridLinesVisibility="All"

@@ -14,17 +14,23 @@ using CalcEngine.Grammar.Errors;
 using CalcEngine.Grammar.Tree;
 using Microsoft.Win32;
 using System.IO;
+using CalcEngine.Graph;
 
 
 namespace CalcEngine.Gui;
 
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, ICellChangeObserver
 {
     private DataTable _spreadsheetTable = new DataTable();
     private FormulaParserService _parserService = new FormulaParserService();
+
+    private readonly DependencyGraph _graph = new();
+
+    private readonly Dictionary<string, string> _formulas = new();
 
     // active cell information
     private int _selectedRow = 0;
@@ -34,6 +40,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         InitializeSpreadsheet();
+        _graph.Subscribe(this);
     }
 
     private void InitializeSpreadsheet()
@@ -54,7 +61,7 @@ public partial class MainWindow : Window
     private void SpreadsheetGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
         if (e.AddedCells.Count > 0)
-        {   
+        {
             var cellInfo = e.AddedCells[0];
 
 
@@ -62,27 +69,31 @@ public partial class MainWindow : Window
             {
                 // get row and column index
                 int columnIndex = SpreadsheetGrid.CurrentCell.Column.DisplayIndex;
-    
+
                 int rowIndex = SpreadsheetGrid.Items.IndexOf(cellInfo.Item);
-    
-    
+
+
                 // ensure the indexes are not negative
                 if (columnIndex >= 0 && rowIndex >= 0)
                 {
                     // update active cell information
                     _selectedColumn = columnIndex;
-    
+
                     _selectedRow = rowIndex;
-    
+
                     // get cell address
                     char columnLetter = (char)('A' + columnIndex);
-    
+
                     string cellAddress = $"{columnLetter}{rowIndex + 1}";
-    
+
                     CellAddressTextBox.Text = cellAddress;
 
                     // show corresponding formula for the selected cell.
-                    if(rowIndex<_spreadsheetTable.Rows.Count && columnIndex < _spreadsheetTable.Columns.Count)
+                    if (_formulas.TryGetValue(cellAddress, out string formula))
+                    {
+                        FormulaTextBox.Text = formula;
+                    }
+                    else if (rowIndex < _spreadsheetTable.Rows.Count && columnIndex < _spreadsheetTable.Columns.Count)
                     {
                         FormulaTextBox.Text = _spreadsheetTable.Rows[rowIndex][columnIndex]?.ToString() ?? "";
                     }
@@ -91,46 +102,77 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ProcessCellInput(string cellAddress, string inputText, int rowIndex, int columnIndex)
+    {
+        _formulas[cellAddress] = inputText;
+
+        ParseResult result = _parserService.Parse(inputText);
+
+        if (result.Success && result.Tree != null)
+        {
+
+            var dependencies = result.Tree.GetCellReferences();
+
+            var graphResult = _graph.SetDependencies(cellAddress, dependencies);
+
+            if (!graphResult.Success)
+            {
+                StatusTextBlock.Text = $"Cycle Error: {graphResult}";
+
+                StatusTextBlock.Foreground = Brushes.Red;
+
+                _spreadsheetTable.Rows[_selectedRow][_selectedColumn] = "#CYCLE!";
+
+                SpreadsheetGrid.Items.Refresh();
+
+                return;
+            }
+            // update status block view to green and the text to the result tree
+            StatusTextBlock.Text = $"Valid Formula! Tree: {result.Tree}";
+
+            StatusTextBlock.Foreground = Brushes.Green;
+
+            _graph.PropagateChange(cellAddress);
+
+        }
+        else
+        {
+            _graph.SetDependencies(cellAddress, Array.Empty<string>());
+
+            _spreadsheetTable.Rows[rowIndex][columnIndex] = inputText;
+
+            // SpreadsheetGrid.Items.Refresh();
+
+            _graph.PropagateChange(cellAddress);
+
+            StatusTextBlock.Text = $"Raw Value Entered";
+
+            StatusTextBlock.Foreground = Brushes.Red;
+        }
+    }
+
     private void FormulaTextBox_KeyDown(object sender, KeyEventArgs e)
     {
         // when user clicks Enter key
         if (e.Key == Key.Enter)
         {
+            if (_selectedRow < 0 || _selectedColumn < 0) return;
+
             string formulaText = FormulaTextBox.Text;
 
-            // parse the formulaText using CalcEngine.Grammar
-            ParseResult result = _parserService.Parse(formulaText);
+            string cellAddress = $"{(char)('A' + _selectedColumn)}{_selectedRow + 1}";
 
-            if (result.Success && result.Tree != null)
-            {
-                // update status block view to green and the text to the result tree
-                StatusTextBlock.Text = $"Valid Formula! Tree: {result.Tree}";
-
-                StatusTextBlock.Foreground = Brushes.Green;
-
-                // calculation
-                var fakeContext = new FakeEvaluationContext();
-
-                var evaluatedValue = result.Tree.Evaluate(fakeContext);
-
-                System.Console.WriteLine(evaluatedValue.ToString());
-
-                if (_selectedRow >= 0 && _selectedColumn >= 0)
-                {
-                    _spreadsheetTable.Rows[_selectedRow][_selectedColumn] = evaluatedValue.ToString();
-                    SpreadsheetGrid.Items.Refresh();
-                }
-
-            }
-            else
-            {
-                string errors = string.Join(';', result.Errors);
-
-                StatusTextBlock.Text = $"Syntax Error: {errors}";
-
-                StatusTextBlock.Foreground = Brushes.Red;
-            }
+            ProcessCellInput(cellAddress, formulaText, _selectedRow, _selectedColumn);
         }
+    }
+
+    private void GraphButton_Click(object sender, RoutedEventArgs e)
+    {
+        var order = _graph.GetRecalculationOrder();
+
+        string orderMessage = string.Join(" -> ", order);
+
+        MessageBox.Show($"Full Recalculation Order:\n\n{orderMessage}", "Dependency Graph Snapshot", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private void SpreadsheetGrid_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -234,7 +276,67 @@ public partial class MainWindow : Window
         }
     }
 
+    private string GetCellValueFromGrid(string cellAddress)
+    {
+        if (string.IsNullOrEmpty(cellAddress)) return "";
+        char columnLetter = cellAddress[0];
 
+        if (!int.TryParse(cellAddress.Substring(1), out int rowNumber)) return "";
 
+        int columnIndex = columnLetter - 'A';
+        int rowIndex = rowNumber - 1;
 
+        if (rowIndex >= 0 && rowIndex < _spreadsheetTable.Rows.Count && columnIndex >= 0 && columnIndex < _spreadsheetTable.Columns.Count)
+        {
+            return _spreadsheetTable.Rows[rowIndex][columnIndex]?.ToString() ?? "";
+        }
+        return "";
+    }
+
+    public void OnCellInvalidated(string cellReference)
+    {
+        if (!_formulas.TryGetValue(cellReference, out string formulaText)) return;
+
+        ParseResult result = _parserService.Parse(formulaText);
+
+        if (result.Success && result.Tree != null)
+        {
+            var context = new FakeEvaluationContext(GetCellValueFromGrid);
+
+            var evaluatedValue = result.Tree.Evaluate(context);
+
+            int columnIndex = cellReference[0] - 'A';
+
+            int rowIndex = int.Parse(cellReference.Substring(1)) - 1;
+
+            if (rowIndex >= 0 && rowIndex < _spreadsheetTable.Rows.Count && columnIndex >= 0 && columnIndex < _spreadsheetTable.Columns.Count)
+            {
+                _spreadsheetTable.Rows[rowIndex][columnIndex] = evaluatedValue.ToString();
+                // SpreadsheetGrid.Items.Refresh();
+            }
+        }
+    }
+
+    private void SpreadsheetGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+    {
+        if (e.EditAction == DataGridEditAction.Commit)
+        {
+            if (e.EditingElement is TextBox textBox)
+            {
+                string newText = textBox.Text;
+
+                int columnIndex = e.Column.DisplayIndex;
+
+                int rowIndex = e.Row.GetIndex();
+
+                string cellAddress = $"{(char)('A' + columnIndex)}{rowIndex + 1}";
+
+                // e.Cancel = true;
+
+                // SpreadsheetGrid.CancelEdit();
+
+                Dispatcher.InvokeAsync(() => { ProcessCellInput(cellAddress, newText, rowIndex, columnIndex); });
+            }
+        }
+    }
 }

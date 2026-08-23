@@ -10,9 +10,20 @@ namespace CalcEngine.Gui;
 /// </summary>
 public class FakeEvaluationContext : IEvaluationContext
 {
+
+    private readonly Func<string, string> _getValue;
+
+    public FakeEvaluationContext(Func<string, string> getValue)
+    {
+        _getValue = getValue;
+    }
+
     public CellValue GetCellValue(string cellReference)
     {
-        return CellValue.Number(0);
+        string rawValue = _getValue(cellReference);
+        if (double.TryParse(rawValue, out double num)) return CellValue.Number(num);
+
+        return string.IsNullOrEmpty(rawValue) ? CellValue.Number(0) : CellValue.Text(rawValue);
     }
 
     public IEnumerable<CellValue> GetRangeValues(string rangeReference)

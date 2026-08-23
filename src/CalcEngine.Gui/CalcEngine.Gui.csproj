@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CalcEngine.Grammar\CalcEngine.Grammar.csproj" />
+    <ProjectReference Include="..\CalcEngine.Graph\CalcEngine.Graph.csproj" />
   </ItemGroup>
 
 </Project>
