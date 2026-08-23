@@ -268,7 +268,7 @@ public partial class MainWindow : Window, ICellChangeObserver
     {
         SaveFileDialog dialog = new SaveFileDialog
         {
-            Filter = "CSV Files (*.csv)|All Files (*.*)|*.*",
+            Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
             DefaultExt = "csv"
         };
 
@@ -298,7 +298,7 @@ public partial class MainWindow : Window, ICellChangeObserver
     {
         OpenFileDialog dialog = new OpenFileDialog
         {
-            Filter = "CSV Files (*.csv)|All Files (*.*)|*.*",
+            Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
         };
 
         if (dialog.ShowDialog() == true)
@@ -309,18 +309,25 @@ public partial class MainWindow : Window, ICellChangeObserver
 
             int startLine = (lines.Length > 0 && lines[0].StartsWith("A,")) ? 1 : 0;
 
-            for (int readingline = 0; readingline < lines.Length; readingline++)
+            for (int readingline = startLine; readingline < lines.Length; readingline++)
             {
                 string[] values = lines[readingline].Split(',');
 
-                for (int character = 0; character < 26; character++)
+                int columnsToRead = Math.Min(26, values.Length)
+;
+                for (int character = 0; character < columnsToRead; character++)
                 {
-                    _spreadsheetTable.Rows[readingline - startLine][character] = values[character];
+                    string inputText = values[character];
+
+                    if (string.IsNullOrEmpty(inputText)) continue;
+                    // _spreadsheetTable.Rows[readingline - startLine][character] = values[character];
+
+                    string cellAddress = $"{(char)('A' + character)}{readingline - startLine + 1}";
+
+                    ProcessCellInput(cellAddress, inputText, readingline - startLine, character);
                 }
 
                 SpreadsheetGrid.Items.Refresh();
-
-
             }
 
             StatusTextBlock.Text = $"File loaded from {dialog.FileName}";
