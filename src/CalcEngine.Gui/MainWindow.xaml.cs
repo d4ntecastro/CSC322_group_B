@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private readonly GuiCellValueSource _cellSource;
     private readonly CalcEngine.Evaluator.Context.IEvaluationContext _evalContext;
     private readonly GrammarToEvaluatorAdapter _adapter;
+    private readonly CalcEngine.Gui.ViewModels.SpreadsheetViewModel _sheet;
 
     public MainWindow()
     {
@@ -30,6 +31,19 @@ public partial class MainWindow : Window
         _cellSource = new GuiCellValueSource();
         _evalContext = new CalcEngine.Evaluator.Context.EvaluationContext(_cellSource, new CalcEngine.Evaluator.Evaluation.TreeWalkingEvaluator(), CalcEngine.Evaluator.Functions.FunctionRegistry.CreateDefault());
         _adapter = new GrammarToEvaluatorAdapter(_evalContext);
+        _sheet = new CalcEngine.Gui.ViewModels.SpreadsheetViewModel(10, 10);
+        DataContext = _sheet;
+
+        CellsGrid.SelectionChanged += CellsGrid_SelectionChanged;
+    }
+
+    private void CellsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (CellsGrid.SelectedItem is CalcEngine.Gui.ViewModels.CellViewModel cell)
+        {
+            (this.FindName("AddressBox") as TextBox)!.Text = cell.AddressText;
+            (this.FindName("FormulaBar") as TextBox)!.Text = cell.Formula;
+        }
     }
 
     private void EvaluateButton_Click(object sender, RoutedEventArgs e)
