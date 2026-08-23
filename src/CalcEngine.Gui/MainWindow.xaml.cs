@@ -15,6 +15,7 @@ using CalcEngine.Grammar.Tree;
 using Microsoft.Win32;
 using System.IO;
 using CalcEngine.Graph;
+using CalcEngine.Evaluator;
 
 
 namespace CalcEngine.Gui;
@@ -27,6 +28,12 @@ public partial class MainWindow : Window, ICellChangeObserver
 {
     private DataTable _spreadsheetTable = new DataTable();
     private FormulaParserService _parserService = new FormulaParserService();
+
+    private GuiCellValueSource _cellSource = new GuiCellValueSource();
+
+    private CalcEngine.Evaluator.Context.IEvaluationContext _evalContext;
+
+    private GrammarToEvaluatorAdapter _adapter;
 
     private readonly DependencyGraph _graph = new();
 
@@ -41,6 +48,14 @@ public partial class MainWindow : Window, ICellChangeObserver
         InitializeComponent();
         InitializeSpreadsheet();
         _graph.Subscribe(this);
+
+        _evalContext = new CalcEngine.Evaluator.Context.EvaluationContext(
+            _cellSource,
+            new CalcEngine.Evaluator.Evaluation.TreeWalkingEvaluator(),
+            CalcEngine.Evaluator.Functions.FunctionRegistry.CreateDefault()
+        );
+
+        _adapter = new GrammarToEvaluatorAdapter(_evalContext);
     }
 
     private void InitializeSpreadsheet()
@@ -111,9 +126,32 @@ public partial class MainWindow : Window, ICellChangeObserver
         if (result.Success && result.Tree != null)
         {
 
-            var dependencies = result.Tree.GetCellReferences();
 
-            var graphResult = _graph.SetDependencies(cellAddress, dependencies);
+            var rawDependencies = result.Tree.GetCellReferences();
+
+            var expandedDependencies = new List<string>();
+
+            foreach (var dep in rawDependencies)
+            {
+                if (dep.Contains(":"))
+                {
+                    var (start, end) = GrammarToEvaluatorAdapter.ParseRange(dep);
+
+                    for (int row = start.Row; row <= end.Row; row++)
+                    {
+                        for (int column = start.Column; column <= end.Column; column++)
+                        {
+                            expandedDependencies.Add($"{(char)('A' + column)}{row + 1}");
+                        }
+                    }
+                }
+                else
+                {
+                    expandedDependencies.Add(dep);
+                }
+            }
+
+            var graphResult = _graph.SetDependencies(cellAddress, expandedDependencies);
 
             if (!graphResult.Success)
             {
@@ -143,11 +181,24 @@ public partial class MainWindow : Window, ICellChangeObserver
 
             // SpreadsheetGrid.Items.Refresh();
 
+            var address = GrammarToEvaluatorAdapter.ParseCellReference(cellAddress);
+
+            if (double.TryParse(inputText, out double num))
+            {
+                _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Number(num));
+            }
+            else
+            {
+                _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Text(inputText));
+
+            }
+
+
             _graph.PropagateChange(cellAddress);
 
             StatusTextBlock.Text = $"Raw Value Entered";
 
-            StatusTextBlock.Foreground = Brushes.Red;
+            StatusTextBlock.Foreground = Brushes.Black;
         }
     }
 
@@ -301,9 +352,8 @@ public partial class MainWindow : Window, ICellChangeObserver
 
         if (result.Success && result.Tree != null)
         {
-            var context = new FakeEvaluationContext(GetCellValueFromGrid);
 
-            var evaluatedValue = result.Tree.Evaluate(context);
+            var evaluatedValue = result.Tree.Evaluate(_adapter);
 
             int columnIndex = cellReference[0] - 'A';
 
@@ -313,6 +363,17 @@ public partial class MainWindow : Window, ICellChangeObserver
             {
                 _spreadsheetTable.Rows[rowIndex][columnIndex] = evaluatedValue.ToString();
                 // SpreadsheetGrid.Items.Refresh();
+
+                var address = GrammarToEvaluatorAdapter.ParseCellReference(cellReference);
+
+                if (evaluatedValue.Type == CalcEngine.Grammar.Values.CellValueType.Number)
+                {
+                    _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Number(evaluatedValue.NumberValue));
+                }
+                else
+                {
+                    _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Text(evaluatedValue.ToString()));
+                }
             }
         }
     }

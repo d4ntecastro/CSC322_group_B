@@ -45,7 +45,16 @@ namespace CalcEngine.Gui
                 return GrammarValues.CellValue.Error("#NAME?");
 
             // Wrap grammar argument nodes as evaluator AST nodes
-            var wrappedArgs = arguments.Select(arg => new GrammarArgWrapper(arg, this)).ToList<CalcEngine.Evaluator.Ast.IExpressionNode>();
+            var wrappedArgs = arguments.Select(arg =>
+            {
+                if (arg is GrammarTree.RangeNode rn)
+                {
+                    (var start, var end) = ParseRange(rn.RangeReference);
+
+                    return (EvalAst.IExpressionNode)new EvalAst.RangeReferenceNode(start, end);
+                }
+                return new GrammarArgWrapper(arg, this);
+            }).ToList();
 
             var result = function.Invoke(wrappedArgs, _evalContext);
             return ConvertEvaluatorToGrammar(result);
