@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CalcEngine.Grammar\CalcEngine.Grammar.csproj" />
     <ProjectReference Include="..\CalcEngine.Evaluator\CalcEngine.Evaluator.csproj" />
+    <ProjectReference Include="..\CalcEngine.Graph\CalcEngine.Graph.csproj" />
   </ItemGroup>
 
 </Project>
