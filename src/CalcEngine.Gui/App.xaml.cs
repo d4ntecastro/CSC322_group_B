@@ -9,5 +9,9 @@ namespace CalcEngine.Gui;
 /// </summary>
 public partial class App : Application
 {
+    public App()
+    {
+        InitializeComponent();
+    }
 }
 
