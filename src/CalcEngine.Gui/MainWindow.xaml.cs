@@ -17,6 +17,8 @@ using System.IO;
 using CalcEngine.Graph;
 using CalcEngine.Evaluator.ConditionalFormatting;
 using EvaluatorCellValue = CalcEngine.Evaluator.Values.CellValue;
+using CalcEngine.Evaluator.Commands;
+using CalcEngine.Evaluator.Values;
 
 
 namespace CalcEngine.Gui;
@@ -25,12 +27,14 @@ namespace CalcEngine.Gui;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window, ICellChangeObserver
+public partial class MainWindow : Window, ICellChangeObserver, ICellMutator
 {
     private DataTable _spreadsheetTable = new DataTable();
     private FormulaParserService _parserService = new FormulaParserService();
 
     private GuiCellValueSource _cellSource = new GuiCellValueSource();
+
+    private readonly Evaluator.Commands.CommandManager _commandManager = new Evaluator.Commands.CommandManager(capacity: 200);
 
     private CalcEngine.Evaluator.Context.IEvaluationContext _evalContext;
 
@@ -126,6 +130,20 @@ public partial class MainWindow : Window, ICellChangeObserver
                 }
             }
         }
+    }
+
+    public string GetCellInput(CellAddress address)
+    {
+        string cellRef = $"{(char)('A' + address.Column)}{address.Row + 1}";
+
+        return _formulas.TryGetValue(cellRef, out var formula) ? formula : "";
+    }
+
+    public void SetCellInput(CellAddress address, string input)
+    {
+        string cellRef = $"{(char)('A' + address.Column)}{address.Row + 1}";
+
+        ProcessCellInput(cellRef, input, address.Row, address.Column);
     }
 
     private void ProcessCellInput(string cellAddress, string inputText, int rowIndex, int columnIndex)
@@ -462,6 +480,12 @@ public partial class MainWindow : Window, ICellChangeObserver
 
                 string cellAddress = $"{(char)('A' + columnIndex)}{rowIndex + 1}";
 
+                var address = new CellAddress(rowIndex, columnIndex);
+
+                var command = new SetCellCommand(this, address, newText);
+
+                _commandManager.Do(command);
+
                 // e.Cancel = true;
 
                 // SpreadsheetGrid.CancelEdit();
@@ -469,5 +493,24 @@ public partial class MainWindow : Window, ICellChangeObserver
                 Dispatcher.InvokeAsync(() => { ProcessCellInput(cellAddress, newText, rowIndex, columnIndex); });
             }
         }
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.Z && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+        {
+            if (_commandManager.CanUndo) _commandManager.Undo();
+
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Y && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+        {
+            if (_commandManager.CanRedo) _commandManager.Redo();
+            e.Handled = true;
+        }
+
+
     }
 }
