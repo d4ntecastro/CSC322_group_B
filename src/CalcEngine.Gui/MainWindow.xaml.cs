@@ -15,7 +15,8 @@ using CalcEngine.Grammar.Tree;
 using Microsoft.Win32;
 using System.IO;
 using CalcEngine.Graph;
-using CalcEngine.Evaluator;
+using CalcEngine.Evaluator.ConditionalFormatting;
+using EvaluatorCellValue = CalcEngine.Evaluator.Values.CellValue;
 
 
 namespace CalcEngine.Gui;
@@ -37,6 +38,8 @@ public partial class MainWindow : Window, ICellChangeObserver
 
     private readonly DependencyGraph _graph = new();
 
+    private readonly ConditionalFormattingEngine _cfEngine = new();
+
     private readonly Dictionary<string, string> _formulas = new();
 
     // active cell information
@@ -56,6 +59,14 @@ public partial class MainWindow : Window, ICellChangeObserver
         );
 
         _adapter = new GrammarToEvaluatorAdapter(_evalContext);
+
+        _cfEngine.AddRule(new ConditionalFormatRule(
+            "HighValues",
+            new CalcEngine.Evaluator.Values.CellAddress(0, 0),
+            new CalcEngine.Evaluator.Values.CellAddress(49, 25),
+            new ComparisonCondition(ComparisonOperator.GreaterThan, 100),
+            new FormatStyle(backgroundColorHex: "#FFCCCC", bold: true)
+        ));
     }
 
     private void InitializeSpreadsheet()
@@ -190,14 +201,12 @@ public partial class MainWindow : Window, ICellChangeObserver
             else
             {
                 _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Text(inputText));
-
             }
 
-
+            ApplyConditionalFormatting(cellAddress, _cellSource.GetValue(address));
             _graph.PropagateChange(cellAddress);
 
             StatusTextBlock.Text = $"Raw Value Entered";
-
             StatusTextBlock.Foreground = Brushes.Black;
         }
     }
@@ -381,9 +390,63 @@ public partial class MainWindow : Window, ICellChangeObserver
                 {
                     _cellSource.Set(address, CalcEngine.Evaluator.Values.CellValue.Text(evaluatedValue.ToString()));
                 }
+
+                ApplyConditionalFormatting(cellReference, _cellSource.GetValue(address));
             }
         }
     }
+
+    private void ApplyConditionalFormatting(string cellReference, EvaluatorCellValue cellVal)
+    {
+        var address = GrammarToEvaluatorAdapter.ParseCellReference(cellReference);
+        FormatStyle? style = _cfEngine.GetStyleFor(address, cellVal, _evalContext);
+
+        Dispatcher.InvokeAsync(() =>
+        {
+            DataGridCell? cell = GetCellContainer(address.Row, address.Column);
+            if (cell != null)
+            {
+                if (style.HasValue && !string.IsNullOrEmpty(style.Value.BackgroundColorHex))
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(style.Value.BackgroundColorHex);
+                    cell.Background = new SolidColorBrush(color);
+                    if (style.Value.Bold) cell.FontWeight = FontWeights.Bold;
+                }
+                else
+                {
+                    cell.Background = Brushes.White;
+                    cell.FontWeight = FontWeights.Normal;
+                }
+            }
+        });
+    }
+
+    private DataGridCell? GetCellContainer(int row, int column)
+    {
+        if (row < 0 || row >= SpreadsheetGrid.Items.Count) return null;
+        DataGridRow? rowContainer = (DataGridRow)SpreadsheetGrid.ItemContainerGenerator.ContainerFromIndex(row);
+        if (rowContainer == null) return null;
+
+        var presenter = GetVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(rowContainer);
+        if (presenter == null) return null;
+
+        return (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
+    }
+
+    private static T? GetVisualChild<T>(Visual parent) where T : Visual
+    {
+        int numChildren = VisualTreeHelper.GetChildrenCount(parent);
+        for (int i = 0; i < numChildren; i++)
+        {
+            Visual child = (Visual)VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild) return typedChild;
+            T? childOfChild = GetVisualChild<T>(child);
+            if (childOfChild != null) return childOfChild;
+        }
+        return null;
+    }
+
+
 
     private void SpreadsheetGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
     {
